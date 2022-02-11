@@ -25,7 +25,7 @@ const useContacts = () => {
         contact.sequence_number = maxNumber + 1;
       }
 
-      await api.post("/contacts/", contact, {
+      await api.post("contacts", contact, {
         headers: {
           authorization,
         },
@@ -43,7 +43,7 @@ const useContacts = () => {
     try {
       const authorization = getAccessToken();
 
-      const res = await api.get("/contacts/list", {
+      const res = await api.get("contacts/list", {
         headers: {
           authorization,
         },
@@ -63,7 +63,7 @@ const useContacts = () => {
       const authorization = getAccessToken();
 
       await api.put(
-        "/contacts/",
+        "contacts",
         { contact },
         {
           headers: {
@@ -86,8 +86,8 @@ const useContacts = () => {
   const deleteContact = async (mongoId, zohoId) => {
     try {
       const authorization = getAccessToken();
-      console.log(mongoId, zohoId);
-      await api.delete("/contacts/", {
+
+      await api.delete("contacts", {
         headers: {
           authorization,
         },

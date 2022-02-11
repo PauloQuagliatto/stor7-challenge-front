@@ -44,12 +44,12 @@ const CreateContactModal = ({ isOpen, setIsOpen, contact, setContact }) => {
 
     if (success) {
       toast("Contato atualizado com sucesso");
+      onRequestClose();
     } else {
       toast("Não foi possível atualizar contato");
     }
-
-    onRequestClose();
   };
+  
   return (
     <Modal
       isOpen={isOpen}

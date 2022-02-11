@@ -36,12 +36,12 @@ const CreateContactModal = ({ isOpen, setIsOpen }) => {
     }
     if (success) {
       toast("Contato adicionado com sucesso");
+      onRequestClose();
     } else {
       toast("Não foi possível adicionar contato");
     }
-
-    onRequestClose();
   };
+  
   return (
     <Modal
       isOpen={isOpen}
