@@ -13,21 +13,16 @@ const useContacts = () => {
       const authorization = getAccessToken();
 
       if (!contact.sequenceNumber) {
-        let contactNumber = 0;
-        let minNumber = 0;
         let maxNumber = 0;
         contacts.map((currentContact, index) => {
-          if (index === 0) {
-            return (minNumber = currentContact.sequence_number);
-          } else if (currentContact.sequence_number > maxNumber) {
+          if (currentContact.sequence_number > maxNumber) {
             maxNumber = currentContact.sequence_number;
           }
 
-          return maxNumber;
+          return maxNumber + 1;
         });
-        console.log(minNumber);
-        console.log(maxNumber);
-        contact.sequence_number = contactNumber;
+
+        contact.sequence_number = maxNumber + 1;
       }
 
       await api.post("/contacts/", contact, {
