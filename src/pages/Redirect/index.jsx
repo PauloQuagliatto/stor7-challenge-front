@@ -20,7 +20,7 @@ const Redirect = () => {
       const res = await api.post("/login/oauth", {
         code,
       });
-      console.log(res.data);
+      
       if (res.data.access_token) {
         signIn(res.data.access_token);
       } else {
