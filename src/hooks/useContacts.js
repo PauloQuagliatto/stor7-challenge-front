@@ -12,28 +12,35 @@ const useContacts = () => {
     try {
       const authorization = getAccessToken();
 
+      if (!contact.sequenceNumber) {
+        let contactNumber = 0;
+        let minNumber = 0;
+        let maxNumber = 0;
+        contacts.map((currentContact, index) => {
+          if (index === 0) {
+            return (minNumber = currentContact.sequence_number);
+          } else if (currentContact.sequence_number > maxNumber) {
+            maxNumber = currentContact.sequence_number;
+          }
+
+          return maxNumber;
+        });
+        console.log(minNumber);
+        console.log(maxNumber);
+        contact.sequence_number = contactNumber;
+      }
+
       await api.post("/contacts/", contact, {
         headers: {
           authorization,
         },
       });
-      if (!contact.sequenceNumber) {
-        let biggestNumber = 0;
-        contacts.map((currentContact) => {
-          if (currentContact.sequence_number > biggestNumber) {
-            biggestNumber = currentContact.sequence_number;
-          }
-
-          return biggestNumber;
-        });
-
-        contact.sequence_number = biggestNumber + 1;
-      }
 
       const newContacts = [...contacts, contact];
       setContacts(newContacts);
-    } catch (err) {
-      console.log(err);
+      return true;
+    } catch {
+      return false;
     }
   };
 
@@ -50,8 +57,9 @@ const useContacts = () => {
       if (res.data) {
         setContacts(res.data);
       }
-    } catch (err) {
-      console.log(err);
+      return true;
+    } catch {
+      return false;
     }
   };
 
@@ -74,8 +82,9 @@ const useContacts = () => {
       newContacts.push(contact);
 
       setContacts(newContacts);
-    } catch (err) {
-      console.log(err);
+      return true;
+    } catch {
+      return false;
     }
   };
 
@@ -96,8 +105,9 @@ const useContacts = () => {
       const newContacts = contacts.filter(({ _id }) => _id !== mongoId);
 
       setContacts(newContacts);
-    } catch (err) {
-      console.log(err);
+      return true;
+    } catch {
+      return false;
     }
   };
 

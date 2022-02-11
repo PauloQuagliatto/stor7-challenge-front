@@ -33,18 +33,22 @@ const CreateContactModal = ({ isOpen, setIsOpen, contact, setContact }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await updateContact({
-        _id: contact._id,
-        name,
-        sequence_number: parseInt(sequenceNumber),
-        zohoId: contact.zohoId,
-      });
+    let success;
 
-      onRequestClose();
-    } catch {
+    success = await updateContact({
+      _id: contact._id,
+      name,
+      sequence_number: parseInt(sequenceNumber),
+      zohoId: contact.zohoId,
+    });
+
+    if (success) {
+      toast("Contato atualizado com sucesso");
+    } else {
       toast("Não foi possível atualizar contato");
     }
+
+    onRequestClose();
   };
   return (
     <Modal

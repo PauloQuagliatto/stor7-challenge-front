@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthProvider } from "../context/AuthContext";
 import { ContactsProvider } from "../context/ContactsContext";
@@ -15,33 +16,32 @@ import GlobalStyle from "../styles/global";
 const App = () => {
   return (
     <AuthProvider>
-      <ContactsProvider>
-        <GlobalStyle />
-        <BrowserRouter history={History}>
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/redirect" element={<Redirect />} />
-
-            <Route
-              path="/dashboard"
-              element={
+      <ToastContainer />
+      <GlobalStyle />
+      <BrowserRouter history={History}>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/redirect" element={<Redirect />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ContactsProvider>
                 <PrivateRoute>
                   <Dashboard />
                 </PrivateRoute>
-              }
-            />
-            <Route
-              path="/contact/:id"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-        <ToastContainer />
-      </ContactsProvider>
+              </ContactsProvider>
+            }
+          />
+          <Route
+            path="/contact/:id"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 };

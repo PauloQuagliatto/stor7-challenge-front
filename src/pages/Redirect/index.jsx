@@ -18,7 +18,7 @@ const Redirect = () => {
         const res = await api.post("/login/oauth", {
           code,
         });
-
+        console.log(res.data);
         signIn(res.data.access_token);
       } catch (err) {
         console.log(err);

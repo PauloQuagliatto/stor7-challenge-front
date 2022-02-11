@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { AiOutlineEdit, AiOutlineUserAdd } from "react-icons/ai";
 import { BiTrash } from "react-icons/bi";
 
@@ -17,7 +18,14 @@ const Dashboard = () => {
   const [selectedContact, setSelectedContact] = useState(null);
 
   useEffect(() => {
-    getContacts();
+    const fetchContacts = async () => {
+      const success = await getContacts();
+      if (!success) {
+        toast("Não foi possível buscar contatos");
+      }
+    };
+
+    fetchContacts();
   }, []);
 
   return (
@@ -26,7 +34,7 @@ const Dashboard = () => {
       <Container>
         <div id="title-container">
           <h1>Contatos</h1>
-          <div class="icon" onClick={() => setIsCreateOpen(true)}>
+          <div className="icon" onClick={() => setIsCreateOpen(true)}>
             <AiOutlineUserAdd fontSize="2.6rem" color="#FFFFFF" />
           </div>
         </div>
@@ -36,15 +44,15 @@ const Dashboard = () => {
               .sort((a, b) => (a.sequence_number > b.sequence_number ? 1 : -1))
               .map((contact, index) => {
                 return (
-                  <div key={index} class="contact-container">
+                  <div key={index} className="contact-container">
                     <div>
                       <h3>{contact.name}</h3>
                       <h5>{contact.sequence_number}</h5>
                     </div>
 
-                    <div class="icons-container">
+                    <div className="icons-container">
                       <div
-                        class="icon"
+                        className="icon"
                         onClick={() => {
                           setSelectedContact(contact);
                           setIsUpdateOpen(true);
@@ -53,10 +61,15 @@ const Dashboard = () => {
                         <AiOutlineEdit fontSize="1.6rem" color="#FFFFFF" />
                       </div>
                       <div
-                        class="icon"
-                        onClick={() =>
-                          deleteContact(contact._id, contact.zohoId)
-                        }
+                        className="icon"
+                        onClick={async () =>{
+                          const success = await deleteContact(contact._id, contact.zohoId);
+                          if(success) {
+                            toast("Contato deletado com sucesso");
+                          } else {
+                            toast("Não foi possível deletar contato");
+                          }
+                        }}
                       >
                         <BiTrash fontSize="1.6rem" color="#FFFFFF" />
                       </div>

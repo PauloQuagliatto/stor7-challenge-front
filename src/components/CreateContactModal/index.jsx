@@ -25,19 +25,22 @@ const CreateContactModal = ({ isOpen, setIsOpen }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (sequenceNumber) {
-        await createContact({
-          name,
-          sequence_number: parseInt(sequenceNumber),
-        });
-      } else {
-        await createContact({ name });
-      }
-      onRequestClose();
-    } catch {
+    let success;
+    if (sequenceNumber) {
+      success = await createContact({
+        name,
+        sequence_number: parseInt(sequenceNumber),
+      });
+    } else {
+      success = await createContact({ name });
+    }
+    if (success) {
+      toast("Contato adicionado com sucesso");
+    } else {
       toast("Não foi possível adicionar contato");
     }
+
+    onRequestClose();
   };
   return (
     <Modal
