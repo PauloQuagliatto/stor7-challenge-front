@@ -12,7 +12,7 @@ const useContacts = () => {
     try {
       const authorization = getAccessToken();
 
-      if (!contact.sequenceNumber) {
+      if (!contact.sequence_number) {
         let maxNumber = 0;
         contacts.map((currentContact, index) => {
           if (currentContact.sequence_number > maxNumber) {
